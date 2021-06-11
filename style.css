@@ -1,21 +1,5 @@
-.container {
-  display: grid;
-  grid-template-rows: repeat(2, 0.7fr) repeat(4, 1fr);
-  grid-template-columns: repeat(4, 1fr);
-  border: 1px solid black;
-  background-color: #4456fca4;
-  border-radius: 20px 20px;
-  margin: auto;
-  width: 400px;
-  height: 500px;
-  padding: 10px;
-}
-
-.container > div {
-  border-radius: 15px;
-  border: 1px solid black;
-  margin: 5px;
-  
+body {
+  background-color: #39CCCC;
 }
 
 button {
@@ -26,7 +10,27 @@ button {
 }
 
 button:hover {
+  box-shadow: 1px 1px, inset 1px 1px 5px;
   opacity: 0.7;
+}
+
+.container {
+  display: grid;
+  grid-template-rows: repeat(2, 0.7fr) repeat(4, 1fr);
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid black;
+  background-color: #4456fca4;
+  border-radius: 20px 20px;
+  margin: auto;
+  width: 400px;
+  height: 500px;
+  padding: 20px;
+}
+
+.container > div {
+  border-radius: 15px;
+  border: 1px solid black;
+  margin: 5px;
 }
 
 .display {
@@ -34,6 +38,12 @@ button:hover {
   grid-column: 1 / 5;
   grid-row: 1;
   text-align: right;
+  box-shadow: 1px 1px, inset 1px 1px 10px;
+}
+
+.display > p {
+  margin: auto 10px;
+  font-size: 48px;
 }
 
 .clear {
@@ -44,19 +54,22 @@ button:hover {
 }
 
 .clear > button {
-  background-color: #ff0000de;
+  background-color: #e61f1fdc;
 }
 
 .delete {
   grid-column: 3 / 5;
   grid-row: 2 / 3;
-  text-align: center;
 }
 
 .delete > button {
-  background-color: #ca0d0da8;
+  background-color: #ff0000;
 }
 
 .operator > button {
-  background-color: #e64f0ad8;
+  background-color: #ff4800cc;
+}
+
+#button_equal {
+  background-color: #ff4800cc;
 }

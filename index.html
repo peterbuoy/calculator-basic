@@ -9,31 +9,32 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="container">
-      <div class="display">5125152</div>
-      <div class="clear">
-        <button>C</button>
-      </div>
-      <div class="delete"><button id="#button_DEL">DEL</button></div>
-      <div class="number"><button id='#button_C'>7</button></div>
-      <div class="number"><button id='button_8'>8</button></div>
-      <div class="number"><button id='button_9'>9</button></div>
-      <div class="operator"><button id='button_divide'>÷</button></div>
+    <div class="container" id='container'>
+      <div class="display"><p id="display">0</p></div>
+      <div class="clear"><button id='button_C' value='C'>C</button></div>
+      <div class="delete"><button id='button_DEL' value='DEL'>DEL</button></div>
 
-      <div class="number"><button id='button_4'>4</button></div>
-      <div class="number"><button id='button_5'>5</button></div>
-      <div class="number"><button id='button_6'>6</button></div>
-      <div class="operator"><button id='button_mul'>x</button></div>
+      <div class="number"><button id='button_7' value=7>7</button></div>
+      <div class="number"><button id='button_8' value=8>8</button></div>
+      <div class="number"><button id='button_9' value=9>9</button></div>
+      <div class="operator"><button id='button_divide' value='/'>/</button></div>
 
-      <div class="number"><button id='button_1'>1</button></div>
-      <div class="number"><button id='button_2'>2</button></div>
-      <div class="number"><button id='button_3'>3</button></div>
-      <div class="operator"><button id='button_sub-'>-</button></div>
+      <div class="number"><button id='button_4' value=4>4</button></div>
+      <div class="number"><button id='button_5' value=5>5</button></div>
+      <div class="number"><button id='button_6' value=6>6</button></div>
+      <div class="operator"><button id='button_mul' value='*'>*</button></div>
 
-      <div class="number"><button id='button_0'>0</button></div>
-      <div class="operator"><button id='button_decimal'>.</button></div>
-      <div class="operator"><button id='button_equal'>=</button></div>
-      <div class="operator"><button id='button_add'>+</button></div>
+      <div class="number"><button id='button_1' value=1>1</button></div>
+      <div class="number"><button id='button_2' value=2>2</button></div>
+      <div class="number"><button id='button_3' value=3>3</button></div>
+      <div class="operator"><button id='button_sub' value='-'>-</button></div>
+
+      <div class="number"><button id='button_0' value=0>0</button></div>
+      <div class="number"><button id='button_decimal' value='.'>.</button></div>
+      <div class="equal"><button id='button_equal' value='='>=</button></div>
+      <div class="operator"><button id='button_add' value='+'>+</button></div>
+
+      <script src="app.js"></script>
     </div>
   </body>
 </html>
