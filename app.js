@@ -1,138 +1,108 @@
-const add = (a, b) => Number(a) + Number(b);
-const subtract = (a, b) => Number(a) - Number(b);
-const multiply = (a, b) => Number(a) * Number(b);
-const divide = (a, b) => Number(a) / Number(b);
-const operate = (operator, a, b) => {
-  if (operator == '+') return add(a, b);
-  if (operator == '-') return subtract(a, b);
-  if (operator == '*') return multiply(a, b);
-  if (operator == '/') return divide(a, b);
-  else console.log(`${operator} is an unknown operator`);
-};
-console.log(add("5", "6"));
-console.log(subtract("5", "7"));
-console.log(multiply("5", "3"));
+const DISPLAY_P = document.getElementById('display');
+const CLEAR_BUTTON = document.getElementById('button_C');
+const DELETE_BUTTON = document.getElementById('button_DEL');
+const NUMBER_BUTTONS = document.querySelectorAll('.number > button');
+const OP_BUTTONS = document.querySelectorAll('.operator > button');
+const EQUAL_BUTTON = document.querySelector('#button_equal');
 
 let displayNum = "0";
-let initialNum = ""; // maybe call this initialNum?
 let currentNum = "";
-let accumulator = "";
+let previousNum = "";
 let previousOp = "";
 
 const printState = () => {
+  console.log('_Variable state_');
+  console.log(`previousNum is ${previousNum}`);
   console.log(`currentNum is ${currentNum}`);
   console.log(`previousOp is ${previousOp}`);
-  console.log(`initialNum is ${initialNum}`);
-  console.log(`accumulator is ${accumulator}`); 
   console.log(' ');
 }
 
-
-const DISPLAY_P = document.getElementById('display');
-
-/*When you read this comment you should remember the time you made unique event listeners
-for every button :)
-https://stackoverflow.com/questions/49680484/how-to-add-one-event-listener-for-all-buttons*/
-
-const updateDisplay = () => {
-  displayNum = currentNum;
-  DISPLAY_P.textContent = displayNum.toString()
+const updateDisplay = (num) => {
+  DISPLAY_P.textContent = num;
 }
 
 const clearDisplay = () => {
-  initialNum = "";
+  displayNum = "0";
   currentNum = "";
-  accumulator = "";
+  previousNum = "";
   previousOp = "";
-  currentNum = "";
-  updateDisplay();
+  updateDisplay(displayNum);
   console.log('Display Cleared');
   printState();
 }
 
+// deletes previously inputted number and ensures display is never completely empty
 const deleteLast = () => {
   if (displayNum == "0") return;
   if (currentNum.length == 1 && currentNum != "0") {
     currentNum = "0";
     displayNum = currentNum;
-    updateDisplay();
-    console.log(`currentNum is ${currentNum}`);
+    updateDisplay(displayNum);
   } else {
     currentNum = currentNum.substring(0, currentNum.length - 1);
     displayNum = currentNum;
-    updateDisplay();
-    console.log(`currentNum is ${currentNum}`);
+    updateDisplay(displayNum);
   }
 }
 
-const NUMBER_BUTTONS = document.querySelectorAll('.number > button');
-NUMBER_BUTTONS.forEach(button => button.addEventListener('click', event => {
-    const buttonValue = event.target.value;
-    if (displayNum == "0") currentNum = "";
-    //if (accumulator != "") currentNum = "";
-    currentNum += buttonValue;
-    displayNum = currentNum;
-    printState();
-    updateDisplay();
-  }));
+const clickNumber = (event) => {
+  const buttonValue = event.target.value;
+  // prevents adding number to 0
+  if (displayNum == "0" || currentNum == "0") {
+    console.log('clickNumber set currentNum to empty!');
+    currentNum = "";
+  }
+  currentNum += buttonValue;
+  displayNum = currentNum;
+  printState();
+  updateDisplay(displayNum);
+}
 
-const CLEAR_BUTTON = document.getElementById('button_C');
-CLEAR_BUTTON.addEventListener('click', clearDisplay);
-const DELETE_BUTTON = document.getElementById('button_DEL');
-DELETE_BUTTON.addEventListener('click', deleteLast);
+const operations = {
+  add: (a, b) => Number(a) + Number(b),
+  subtract: (a, b) => Number(a) - Number(b),
+  multiply: (a, b) => Number(a) * Number(b),
+  divide: (a, b) => Number(a) / Number(b)
+}
 
-const OP_BUTTONS = document.querySelectorAll('.operator > button');
-OP_BUTTONS.forEach(button => button.addEventListener('click', event => {
+const compute = (event) => {
+  console.log('inside compute');
   const opValue = event.target.value;
   console.log(opValue);
-  previousOp = opValue;
   console.log(`previousOp is ${previousOp}`);
   console.log(' ');
-
   // first operation
-  if(initialNum == "") {
-    initialNum = currentNum;
+  if(previousNum == "") {
+    previousNum = currentNum;
     currentNum = "0";
     displayNum = currentNum;
-    updateDisplay();
+    updateDisplay(currentNum);
     printState();
+  // subsequent operations
   } else {
     console.log('inside else');
-    if (accumulator == "") {
-      console.log('accumulator is empty');
-      accumulator = operate(previousOp, initialNum, currentNum);}
-    else {
-      console.log('there is an accumulator');
-      console.log(`accumulator inside op listener ${accumulator}`); 
-      //if(currentNum == "0") currentNum == 1;
-      // accumulator = operate(previousOp, accumulator, currentNum).toString();
-    }
-    console.log(`accumulator inside op listener ${accumulator}`); 
-    displayNum = accumulator;
-    updateDisplay();
-    currentNum = 0;
+    console.log(previousOp);
+    console.log(previousNum);
+    console.log(currentNum);
+    previousNum = operations[previousOp](previousNum, currentNum);
+    currentNum = "0";
+    updateDisplay(previousNum);
     printState();
   }
-}))
-
-const evaluate = () => {
-  console.log('inside evaluate');
-  if (accumulator == "") {
-    accumulator = operate(previousOp, initialNum, currentNum).toString();
-  }
-  else {
-    accumulator = operate(previousOp, accumulator, currentNum).toString();
-  }
-  console.log(`accumulator after op ${accumulator}`); 
-  console.log(' ');
-  currentNum = accumulator;
-  updateDisplay();
-  currentNum = "0";
-  previousOp = "";
-  printState();
+  previousOp = opValue;
 };
 
-const EQUAL_BUTTON = document.querySelector('#button_equal');
-console.log(EQUAL_BUTTON);
-EQUAL_BUTTON.addEventListener('click', evaluate);
+const evaluate = (event) => {
+  previousNum = operations[previousOp](previousNum, currentNum);
+  currentNum = "";
+  previousOp = "";
+  printState();
+  updateDisplay(previousNum);
+}
 
+CLEAR_BUTTON.addEventListener('click', clearDisplay);
+DELETE_BUTTON.addEventListener('click', deleteLast);
+NUMBER_BUTTONS.forEach(button => button.addEventListener('click', clickNumber)); 
+OP_BUTTONS.forEach(button => button.addEventListener('click', compute)); 
+EQUAL_BUTTON.addEventListener('click', evaluate);
