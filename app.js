@@ -25,6 +25,16 @@ const updateDisplay = (num) => {
   DISPLAY_P.textContent = num;
 }
 
+const roundResult = (result) => {
+  let maxDisplayLength = 15;
+  if (result.length > 15) {
+    console.log('rounding since num is too large for display');
+    result = result.substring(0, maxDisplayLength);
+    console.log(result);
+  }
+  return result;
+}
+
 const clearDisplay = () => {
   currentNum = "";
   previousNum = "";
@@ -51,8 +61,7 @@ const deleteLast = () => {
 
 const clickNumber = (event) => {
   const buttonValue = event.target.value;
-  if (DISPLAY_P.textContent == "0" && buttonValue == "." 
-      || (DISPLAY_P.textContent.includes(".") && buttonValue == ".")) {
+  if ((DISPLAY_P.textContent.includes(".") && buttonValue == ".")) {
     alert('Please enter decimals in valid areas.');
     return;
   }
@@ -75,6 +84,13 @@ const operations = {
   }
 }
 
+const roundNum = (num) => {
+  let numStr = num.toString();
+  console.log(`numStr is ${numStr}`);
+  if (numStr.length > 15) num = parseFloat(numStr.substring(0, 16));
+  return num;
+}
+
 const compute = (event) => {
   const opValue = event.target.value;
   console.log(opValue);
@@ -86,7 +102,7 @@ const compute = (event) => {
     printState();
   // subsequent operations
   } else {
-    previousNum = operations[previousOp](previousNum, currentNum);
+    previousNum = roundNum(operations[previousOp](previousNum, currentNum));
     currentNum = "";
     updateDisplay(previousNum);
     printState();
@@ -95,7 +111,7 @@ const compute = (event) => {
 };
 
 const evaluate = () => {
-  currentNum = operations[previousOp](previousNum, currentNum);
+  currentNum = roundNum(operations[previousOp](previousNum, currentNum));
   previousNum = "";
   previousOp = "";
   updateDisplay(currentNum);
